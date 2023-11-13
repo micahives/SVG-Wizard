@@ -2,7 +2,8 @@ import inquirer from 'inquirer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-// import { Shape, Circle } from './examples/lib/shapes.js';
+import { Shape, Circle, Triangle, Square } from './lib/shapes.js';
+import { Recoverable } from 'repl';
 
 // for managing/altering file paths with path module
 const __filename = fileURLToPath(import.meta.url);
@@ -47,17 +48,50 @@ function writeToFile(response) {
 )};
 
 function generateSvg(response) {
-    return `<svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    version="1.1" 
-    width="300" 
-    height="200">
+    // Logic for handling potential user shape selections
+    // TODO: abstract the shared shape code in the render shape class and instantiate to not have to rewrite code
+    if (response.shape === 'Circle') {
+        const selectedShape = new Circle();
+        return `<svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        version="1.1" 
+        width="300" 
+        height="200">
+    
+        ${selectedShape.render()} fill="red"/>
+    
+        <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
+    
+        </svg>`;
 
-    <circle cx="150" cy="100" r="80" fill="green"/>
+    } else if (response.shape === 'Triangle') {
+        const selectedShape = new Triangle();
+        return `<svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        version="1.1" 
+        width="300" 
+        height="200">
+    
+        ${selectedShape.render()} fill="red"/>
+    
+        <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
+    
+        </svg>`;
 
-    <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
-
-    </svg>`;
+    } else {
+        const selectedShape = new Square();
+        return `<svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        version="1.1" 
+        width="300" 
+        height="200">
+    
+        ${selectedShape.render()} fill="red"/>
+    
+        <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
+    
+        </svg>`;
+    }
 }
 
 init();
